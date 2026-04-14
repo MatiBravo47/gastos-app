@@ -1,14 +1,15 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
+import CategoryPicker from "@/components/CategoryPicker";
+import DatePickerField from "@/components/DatePickerField";
+import GastosList from "@/components/FlatList";
+import InputField from "@/components/InputField";
 import { useState } from "react";
-import { Button, FlatList, Text, TextInput, View } from "react-native";
+import { Button, Text, View } from "react-native";
 
 export default function HomeScreen() {
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
 
   const [fecha, setFecha] = useState(new Date());
-  const [mostrarPicker, setMostrarPicker] = useState(false);
 
   const [monto, setMonto] = useState("");
   const [gastos, setGastos] = useState<
@@ -21,7 +22,13 @@ export default function HomeScreen() {
     }[]
   >([]);
 
-  const categorias = ["Comida", "Transporte", "Ocio", "Servicios", "Otros"];
+  const categorias = [
+    { nombre: "Comida", icono: "fast-food", color: "#FF7043" },
+    { nombre: "Transporte", icono: "car", color: "#42A5F5" },
+    { nombre: "Ocio", icono: "game-controller", color: "#66BB6A" },
+    { nombre: "Servicios", icono: "construct", color: "#FFCA28" },
+    { nombre: "Otros", icono: "apps", color: "#AB47BC" },
+  ];
 
   const agregarGasto = () => {
     if (!descripcion || !monto) return;
@@ -43,74 +50,56 @@ export default function HomeScreen() {
 
   const total = gastos.reduce((acc, g) => acc + g.monto, 0);
 
+  const gastosAgrupados = gastos.reduce(
+    (acc, gasto) => {
+      if (!acc[gasto.fecha]) {
+        acc[gasto.fecha] = [];
+      }
+      acc[gasto.fecha].push(gasto);
+      return acc;
+    },
+    {} as Record<string, typeof gastos>,
+  );
+
   return (
     <View style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
-      <Text>Registrar Gasto</Text>
+      {/*Pantalla completa*/}
+      <View>
+        {/*Formulario nuevo gasto*/}
+        <Text style={{ fontSize: 20, margin: 20 }}>Registrar gasto</Text>
 
-      <TextInput
-        placeholder="Descripción"
-        value={descripcion}
-        onChangeText={setDescripcion}
-        style={{ borderWidth: 1, marginBottom: 10, backgroundColor: "white" }}
-      />
-
-      <TextInput
-        placeholder="Monto"
-        value={monto}
-        onChangeText={setMonto}
-        keyboardType="numeric"
-        style={{ borderWidth: 1, marginBottom: 10, backgroundColor: "white" }}
-      />
-
-      <Picker
-        selectedValue={categoria}
-        onValueChange={(itemValue) => setCategoria(itemValue)}
-        style={{ marginBottom: 10 }}
-      >
-        <Picker.Item label="Seleccionar categoría" value="" />
-
-        {categorias.map((cat) => (
-          <Picker.Item key={cat} label={cat} value={cat} />
-        ))}
-      </Picker>
-
-      <Text style={{ marginBottom: 10 }}>
-        Fecha: {fecha.toLocaleDateString()}
-      </Text>
-
-      <View style={{ gap: 10 }}>
-        <Button
-          title="Seleccionar fecha"
-          onPress={() => setMostrarPicker(true)}
+        {/*Descripcion*/}
+        <InputField
+          label="Descripcion"
+          value={descripcion}
+          onChangeText={setDescripcion}
         />
 
-        {mostrarPicker && (
-          <DateTimePicker
-            value={fecha}
-            mode="date"
-            display="default"
-            onChange={(event, selectedDate) => {
-              setMostrarPicker(false);
-              if (selectedDate) {
-                setFecha(selectedDate);
-              }
-            }}
-          />
-        )}
+        {/*Monto*/}
+        <InputField
+          label="Monto"
+          value={monto}
+          onChangeText={setMonto}
+          keyboardType="numeric"
+        />
+
+        {/*Categoria*/}
+        <CategoryPicker
+          label="Categoria"
+          selectedValue={categoria}
+          onValueChange={setCategoria}
+          categorias={categorias}
+        />
+
+        {/*DatePickerField*/}
+        <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />
 
         <Button title="Agregar" onPress={agregarGasto} />
       </View>
-      <Text style={{ color: "black" }}>Total: ${total}</Text>
-
-      <FlatList
-        data={gastos}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <Text>
-            {item.descripcion} - ${item.monto} - {item.categoria} - {item.fecha}
-          </Text>
-        )}
-      />
+      <Text style={{ fontSize: 17, color: "black", margin: 20 }}>
+        Total del mes: ${total}
+      </Text>
+      <GastosList gastosAgrupados={gastosAgrupados} categorias={categorias} />
     </View>
   );
 }
