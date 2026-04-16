@@ -1,19 +1,7 @@
+import { Categoria } from "@/types/Categoria";
+import { Gasto } from "@/types/Gasto";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
-
-type Gasto = {
-  id: string;
-  descripcion: string;
-  monto: number;
-  fecha: string;
-  categoria: string;
-};
-
-type Categoria = {
-  nombre: string;
-  icono: string;
-  color: string;
-};
 
 type Props = {
   gasto: Gasto;
@@ -31,18 +19,26 @@ export default function GastoItem({ gasto, categorias }: Props) {
         borderRadius: 10,
         flexDirection: "row",
         alignItems: "center",
-        gap: 10,
       }}
     >
-      <Ionicons
-        name={categoriaData?.icono || "help-circle"}
-        size={20}
-        color="black"
-      />
-
-      <Text style={{ flex: 1 }}>
-        {gasto.descripcion} - ${gasto.monto}
-      </Text>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <View>
+          <Ionicons
+            name={categoriaData?.icono || "help-circle"}
+            size={25}
+            color="black"
+          />
+        </View>
+        <Text>{gasto.descripcion}</Text>
+        <Text>${gasto.monto}</Text>
+      </View>
     </View>
   );
 }

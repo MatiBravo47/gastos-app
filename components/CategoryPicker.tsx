@@ -1,11 +1,6 @@
+import { Categoria } from "@/types/Categoria";
 import { Picker } from "@react-native-picker/picker";
 import { Text, View } from "react-native";
-
-type Categoria = {
-  nombre: string;
-  icono: string;
-  color: string;
-};
 
 type Props = {
   label: string;
@@ -27,14 +22,18 @@ export default function CategoryPicker({
       <View
         style={{
           borderWidth: 1,
-          borderColor: "#ddd",
           borderRadius: 6,
           backgroundColor: "#f5f5f5",
+          justifyContent: "center",
+          paddingVertical: 1,
         }}
       >
         <Picker
           selectedValue={selectedValue}
           onValueChange={(itemValue) => onValueChange(itemValue)}
+          style={{
+            paddingHorizontal: 10,
+          }}
         >
           <Picker.Item label="Sin categoria" value="" />
 

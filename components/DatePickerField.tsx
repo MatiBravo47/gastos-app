@@ -18,13 +18,14 @@ export default function DatePickerField({ label, value, onChange }: Props) {
       <View
         style={{
           borderWidth: 1,
-          borderColor: "#ddd",
           borderRadius: 6,
           backgroundColor: "#f5f5f5",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
           marginBottom: 10,
+          paddingHorizontal: 10,
+          paddingVertical: 12,
         }}
       >
         <View>

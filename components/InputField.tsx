@@ -23,7 +23,6 @@ export default function InputField({
         style={{
           borderWidth: 1,
           borderRadius: 6,
-          marginBottom: 10,
           backgroundColor: "#f5f5f5",
         }}
       />

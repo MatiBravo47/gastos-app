@@ -1,50 +1,65 @@
+import { Categoria } from "@/types/Categoria";
+import { Gasto } from "@/types/Gasto";
 import { FlatList, Text, View } from "react-native";
 import GastoItem from "./GastoItem";
 
-type gasto = {
-  id: string;
-  descripcion: string;
-  monto: number;
-  fecha: string;
-  categoria: string;
-};
-
-type categoria = {
-  nombre: string;
-  icono: string;
-  color: string;
-};
-
 type Props = {
-  gastosAgrupados: Record<string, gasto[]>;
-  categorias: categoria[];
+  gastosAgrupados: Record<string, Gasto[]>;
+  categorias: Categoria[];
 };
 
 export default function GastosList({ gastosAgrupados, categorias }: Props) {
   const fechas = Object.keys(gastosAgrupados);
+
   return (
     <FlatList
       data={fechas}
       keyExtractor={(item) => item}
-      renderItem={({ item: fecha }) => (
-        <View style={{ marginBottom: 15 }}>
-          <Text
-            style={{
-              color: "#333",
-              fontWeight: "bold",
-              fontSize: 18,
-              marginBottom: 5,
-              backgroundColor: "#f5f5f5",
-            }}
-          >
-            {fecha}
-          </Text>
+      renderItem={({ item: fecha }) => {
+        const totalPorFecha = gastosAgrupados[fecha].reduce(
+          (acc, g) => acc + g.monto,
+          0,
+        );
 
-          {gastosAgrupados[fecha].map((gasto) => (
-            <GastoItem key={gasto.id} gasto={gasto} categorias={categorias} />
-          ))}
-        </View>
-      )}
+        return (
+          <View style={{ marginBottom: 15 }}>
+            {/* Header de fecha + total */}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                backgroundColor: "#f5f5f5",
+                padding: 5,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#333",
+                  fontWeight: "bold",
+                  fontSize: 18,
+                }}
+              >
+                {fecha}
+              </Text>
+
+              <Text
+                style={{
+                  color: "#333",
+                  fontWeight: "bold",
+                  fontSize: 18,
+                }}
+              >
+                ${totalPorFecha}
+              </Text>
+            </View>
+
+            {/* Lista de gastos */}
+            {gastosAgrupados[fecha].map((gasto) => (
+              <GastoItem key={gasto.id} gasto={gasto} categorias={categorias} />
+            ))}
+          </View>
+        );
+      }}
     />
   );
 }
