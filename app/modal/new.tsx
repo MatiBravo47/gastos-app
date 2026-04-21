@@ -1,12 +1,13 @@
 import { router } from "expo-router";
 import { useState } from "react";
-import { Button, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 import CategoryPicker from "@/components/CategoryPicker";
 import DatePickerField from "@/components/DatePickerField";
 import InputField from "@/components/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function NewGastoScreen() {
   const { agregarGasto } = useGastosContext();
@@ -37,9 +38,10 @@ export default function NewGastoScreen() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
-      <Text style={{ fontSize: 20, marginBottom: 20 }}>Nuevo gasto</Text>
-
+    <SafeAreaView style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
+      <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 20 }}>
+        Nuevo gasto
+      </Text>
       <InputField
         label="Descripcion"
         value={descripcion}
@@ -61,9 +63,17 @@ export default function NewGastoScreen() {
       />
 
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />
-
-      <Button title="Agregar" onPress={handleAgregar} />
-      <Button title="Cancelar" onPress={() => router.back()} />
-    </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Agregar" onPress={handleAgregar} />
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+});

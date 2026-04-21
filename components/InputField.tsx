@@ -1,4 +1,4 @@
-import { Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 type Props = {
   label: string;
@@ -15,17 +15,25 @@ export default function InputField({
 }: Props) {
   return (
     <View style={{ marginBottom: 10 }}>
-      <Text style={{ marginBottom: 4, color: "#333" }}>{label}</Text>
+      <Text style={styles.labelForm}>{label}</Text>
       <TextInput
         value={value}
         onChangeText={onChangeText}
         keyboardType={keyboardType}
-        style={{
-          borderWidth: 1,
-          borderRadius: 6,
-          backgroundColor: "#f5f5f5",
-        }}
+        style={styles.inputForm}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  inputForm: {
+    borderWidth: 1,
+    borderRadius: 6,
+    backgroundColor: "#f5f5f5",
+  },
+  labelForm: {
+    marginBottom: 4,
+    color: "#333",
+  },
+});

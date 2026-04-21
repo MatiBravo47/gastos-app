@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 type Props = {
   label: string;
@@ -15,19 +15,7 @@ export default function DatePickerField({ label, value, onChange }: Props) {
   return (
     <View style={{ marginBottom: 10 }}>
       <Text style={{ marginBottom: 4, color: "#333" }}>{label}</Text>
-      <View
-        style={{
-          borderWidth: 1,
-          borderRadius: 6,
-          backgroundColor: "#f5f5f5",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginBottom: 10,
-          paddingHorizontal: 10,
-          paddingVertical: 12,
-        }}
-      >
+      <View style={styles.dateInput}>
         <View>
           <Text style={{ fontSize: 16 }}>{value.toLocaleDateString()}</Text>
         </View>
@@ -56,3 +44,17 @@ export default function DatePickerField({ label, value, onChange }: Props) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  dateInput: {
+    borderWidth: 1,
+    borderRadius: 6,
+    backgroundColor: "#f5f5f5",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 12,
+  },
+});

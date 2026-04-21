@@ -1,6 +1,6 @@
 import { Categoria } from "@/types/Categoria";
 import { Picker } from "@react-native-picker/picker";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 type Props = {
   label: string;
@@ -19,15 +19,7 @@ export default function CategoryPicker({
     <View style={{ marginBottom: 10 }}>
       <Text style={{ marginBottom: 4, color: "#333" }}>{label}</Text>
 
-      <View
-        style={{
-          borderWidth: 1,
-          borderRadius: 6,
-          backgroundColor: "#f5f5f5",
-          justifyContent: "center",
-          paddingVertical: 1,
-        }}
-      >
+      <View style={styles.pickerInput}>
         <Picker
           selectedValue={selectedValue}
           onValueChange={(itemValue) => onValueChange(itemValue)}
@@ -49,3 +41,13 @@ export default function CategoryPicker({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  pickerInput: {
+    borderWidth: 1,
+    borderRadius: 6,
+    backgroundColor: "#f5f5f5",
+    justifyContent: "center",
+    paddingVertical: 1,
+  },
+});

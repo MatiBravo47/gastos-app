@@ -1,6 +1,6 @@
 import { Categoria } from "@/types/Categoria";
 import { Gasto } from "@/types/Gasto";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import GastoItem from "./GastoItem";
 
 type Props = {
@@ -24,33 +24,10 @@ export default function GastosList({ gastosAgrupados, categorias }: Props) {
         return (
           <View style={{ marginBottom: 15 }}>
             {/* Header de fecha + total */}
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                backgroundColor: "#f5f5f5",
-                padding: 5,
-              }}
-            >
-              <Text
-                style={{
-                  color: "#333",
-                  fontWeight: "bold",
-                  fontSize: 18,
-                }}
-              >
-                {fecha}
-              </Text>
+            <View style={styles.headerContainer}>
+              <Text style={styles.headerDateTotal}>{fecha}</Text>
 
-              <Text
-                style={{
-                  color: "#333",
-                  fontWeight: "bold",
-                  fontSize: 18,
-                }}
-              >
-                ${totalPorFecha}
-              </Text>
+              <Text style={styles.headerDateTotal}>${totalPorFecha}</Text>
             </View>
 
             {/* Lista de gastos */}
@@ -63,3 +40,17 @@ export default function GastosList({ gastosAgrupados, categorias }: Props) {
     />
   );
 }
+
+const styles = StyleSheet.create({
+  headerDateTotal: {
+    color: "#333",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#f5f5f5",
+    padding: 5,
+  },
+});

@@ -1,7 +1,8 @@
-import { router } from "expo-router";
-import { Button, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import GastosList from "@/components/FlatList";
+import HeaderIndex from "@/components/HeaderIndex";
+import TotalGastos from "@/components/totalGastos";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 
@@ -20,21 +21,26 @@ export default function HomeScreen() {
   );
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
-      {/* BOTÓN PARA ABRIR MODAL */}
-      <Button title="+" onPress={() => router.push("/modal/new")} />
+    <View style={styles.container}>
+      {/* HEADER */}
+      <HeaderIndex />
 
-      {/* TOTAL */}
-      <Text style={{ textAlign: "center", fontSize: 40, marginTop: 20 }}>
-        ${total}
-      </Text>
+      <TotalGastos total={total} />
 
-      <Text style={{ textAlign: "center", fontSize: 17, marginBottom: 10 }}>
-        Gasto mensual
-      </Text>
-
-      {/* LISTA */}
       <GastosList gastosAgrupados={gastosAgrupados} categorias={categorias} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "white",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
