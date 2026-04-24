@@ -3,6 +3,10 @@ import { Gasto } from "@/types/Gasto";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import GastoItem from "./GastoItem";
 
+export const formatearMonto = (monto: number) => {
+  return new Intl.NumberFormat("es-AR").format(monto);
+};
+
 type Props = {
   gastosAgrupados: Record<string, Gasto[]>;
   categorias: Categoria[];
@@ -27,7 +31,9 @@ export default function GastosList({ gastosAgrupados, categorias }: Props) {
             <View style={styles.headerContainer}>
               <Text style={styles.headerDateTotal}>{fecha}</Text>
 
-              <Text style={styles.headerDateTotal}>${totalPorFecha}</Text>
+              <Text style={styles.headerDateTotal}>
+                ${formatearMonto(totalPorFecha)}
+              </Text>
             </View>
 
             {/* Lista de gastos */}

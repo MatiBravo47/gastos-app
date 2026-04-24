@@ -1,5 +1,5 @@
 import { View } from "react-native";
 
 export default function TabTwoScreen() {
-  return <View style={{ flex: 1 }} />;
+  return <View style={{ flex: 1 }}></View>;
 }

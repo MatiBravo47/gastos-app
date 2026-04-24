@@ -1,13 +1,12 @@
-import { router } from "expo-router";
-import { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-
+import AppButton from "@/components/AppButton";
 import CategoryPicker from "@/components/CategoryPicker";
 import DatePickerField from "@/components/DatePickerField";
 import InputField from "@/components/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { router } from "expo-router";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function NewGastoScreen() {
   const { agregarGasto } = useGastosContext();
@@ -28,7 +27,7 @@ export default function NewGastoScreen() {
       categoria,
     });
 
-    // limpiar (opcional)
+    // limpiar
     setDescripcion("");
     setMonto("");
     setFecha(new Date());
@@ -38,10 +37,11 @@ export default function NewGastoScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
-      <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 20 }}>
-        Nuevo gasto
-      </Text>
+    <View style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Nuevo gasto</Text>
+      </View>
+
       <InputField
         label="Descripcion"
         value={descripcion}
@@ -63,10 +63,11 @@ export default function NewGastoScreen() {
       />
 
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />
+
       <View style={styles.buttonContainer}>
-        <Button title="Agregar" onPress={handleAgregar} />
+        <AppButton title="Guardar" onPress={handleAgregar} />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -75,5 +76,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 14,
+    marginBottom: 10,
+    backgroundColor: "black",
+    padding: 14,
+    borderRadius: 8,
   },
 });

@@ -1,7 +1,12 @@
+//https://ionic.io/ionicons
+
 export const categorias = [
   { nombre: "Comida", icono: "fast-food", color: "#FF7043" },
   { nombre: "Farmacia", icono: "medkit", color: "#43ffc7" },
+  { nombre: "Verduleria", icono: "nutrition-outline", color: "#43ffc7" },
+  { nombre: "Peluqueria", icono: "cut-outline", color: "#43ffc7" },
   { nombre: "Transporte", icono: "car", color: "#42A5F5" },
+  { nombre: "Delivery", icono: "apps", color: "#AB47BC" },
   { nombre: "Ocio", icono: "game-controller", color: "#66BB6A" },
   { nombre: "Servicios", icono: "construct", color: "#FFCA28" },
   { nombre: "Otros", icono: "apps", color: "#AB47BC" },
