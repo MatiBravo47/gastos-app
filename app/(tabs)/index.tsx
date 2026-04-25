@@ -3,22 +3,11 @@ import { StyleSheet, View } from "react-native";
 import GastosList from "@/components/FlatList";
 import HeaderIndex from "@/components/HeaderIndex";
 import TotalGastos from "@/components/totalGastos";
-import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
+import { useGastosResumen } from "@/hooks/useGastosResumen";
 
 export default function HomeScreen() {
-  const { gastos } = useGastosContext();
-
-  const total = gastos.reduce((acc, g) => acc + g.monto, 0);
-
-  const gastosAgrupados = gastos.reduce(
-    (acc, gasto) => {
-      if (!acc[gasto.fecha]) acc[gasto.fecha] = [];
-      acc[gasto.fecha].push(gasto);
-      return acc;
-    },
-    {} as Record<string, typeof gastos>,
-  );
+  const { total, gastosAgrupados } = useGastosResumen();
 
   return (
     <View style={styles.container}>

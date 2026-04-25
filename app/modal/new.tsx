@@ -6,7 +6,7 @@ import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { router } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function NewGastoScreen() {
   const { agregarGasto } = useGastosContext();
@@ -17,7 +17,16 @@ export default function NewGastoScreen() {
   const [categoria, setCategoria] = useState("");
 
   const handleAgregar = () => {
-    if (!descripcion || !monto) return;
+    const montoNum = parseFloat(monto.replace(",", "."));
+
+    if (!descripcion.trim()) {
+      Alert.alert("Error", "Por favor ingresá una descripción.");
+      return;
+    }
+    if (isNaN(montoNum) || montoNum <= 0) {
+      Alert.alert("Error", "Por favor ingresá un monto válido mayor a 0.");
+      return;
+    }
 
     agregarGasto({
       id: Date.now().toString(),

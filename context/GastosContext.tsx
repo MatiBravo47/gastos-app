@@ -1,6 +1,6 @@
 import { gastosStorage } from "@/services/gastosStorage";
 import { Gasto } from "@/types/Gasto";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect,useRef, useState } from "react";
 
 type GastosContextType = {
   gastos: Gasto[];
@@ -12,6 +12,9 @@ const GastosContext = createContext<GastosContextType | undefined>(undefined);
 export function GastosProvider({ children }: { children: React.ReactNode }) {
   const [gastos, setGastos] = useState<Gasto[]>([]);
 
+// Ref para evitar que se guarde en el primer render (montaje inicial con array vacío)
+  const isFirstRender = useRef(true);
+
   // 📥 Cargar desde storage
   useEffect(() => {
     const load = async () => {
@@ -21,8 +24,12 @@ export function GastosProvider({ children }: { children: React.ReactNode }) {
     load();
   }, []);
 
-  // 📤 Guardar cuando cambian
+   // 📤 Guardar cuando cambian, pero NO en el primer render
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     gastosStorage.saveGastos(gastos);
   }, [gastos]);
 
