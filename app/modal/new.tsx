@@ -29,10 +29,13 @@ export default function NewGastoScreen() {
     }
 
     agregarGasto({
-      id: Date.now().toString(),
-      descripcion,
-      monto: parseFloat(monto),
-      fecha: fecha.toLocaleDateString(),
+      id:
+        typeof crypto !== "undefined"
+          ? crypto.randomUUID()
+          : Date.now().toString(),
+      descripcion: descripcion.trim(),
+      monto: montoNum,
+      fecha: fecha.toISOString(),
       categoria,
     });
 
