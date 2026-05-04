@@ -30,6 +30,14 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
+          <Stack.Screen
+            name="modal/edit"
+            options={{
+              presentation: "modal",
+              title: "Editar gasto",
+              headerShown: false,
+            }}
+          />
         </Stack>
       </GastosProvider>
       <StatusBar style="auto" />

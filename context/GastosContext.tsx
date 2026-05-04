@@ -1,21 +1,20 @@
 import { gastosStorage } from "@/services/gastosStorage";
 import { Gasto } from "@/types/Gasto";
-import { createContext, useContext, useEffect,useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 type GastosContextType = {
   gastos: Gasto[];
   agregarGasto: (gasto: Gasto) => void;
+  editarGasto: (gasto: Gasto) => void;
+  eliminarGasto: (id: string) => void;
 };
 
 const GastosContext = createContext<GastosContextType | undefined>(undefined);
 
 export function GastosProvider({ children }: { children: React.ReactNode }) {
   const [gastos, setGastos] = useState<Gasto[]>([]);
-
-// Ref para evitar que se guarde en el primer render (montaje inicial con array vacío)
   const isFirstRender = useRef(true);
 
-  // 📥 Cargar desde storage
   useEffect(() => {
     const load = async () => {
       const data = await gastosStorage.getGastos();
@@ -24,7 +23,6 @@ export function GastosProvider({ children }: { children: React.ReactNode }) {
     load();
   }, []);
 
-   // 📤 Guardar cuando cambian, pero NO en el primer render
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -37,8 +35,18 @@ export function GastosProvider({ children }: { children: React.ReactNode }) {
     setGastos((prev) => [...prev, gasto]);
   };
 
+  const editarGasto = (gasto: Gasto) => {
+    setGastos((prev) => prev.map((g) => (g.id === gasto.id ? gasto : g)));
+  };
+
+  const eliminarGasto = (id: string) => {
+    setGastos((prev) => prev.filter((g) => g.id !== id));
+  };
+
   return (
-    <GastosContext.Provider value={{ gastos, agregarGasto }}>
+    <GastosContext.Provider
+      value={{ gastos, agregarGasto, editarGasto, eliminarGasto }}
+    >
       {children}
     </GastosContext.Provider>
   );

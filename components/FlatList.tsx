@@ -1,22 +1,31 @@
 import { Categoria } from "@/types/Categoria";
 import { Gasto } from "@/types/Gasto";
-import { formatearFecha } from "@/utils/format";
+import { formatearFecha, formatearMonto } from "@/utils/format";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import GastoItem from "./GastoItem";
-
-export const formatearMonto = (monto: number) => {
-  return new Intl.NumberFormat("es-AR").format(monto);
-};
 
 type Props = {
   gastosAgrupados: Record<string, Gasto[]>;
   categorias: Categoria[];
+  onAccionesGasto: (gasto: Gasto) => void;
 };
 
-export default function GastosList({ gastosAgrupados, categorias }: Props) {
+export default function GastosList({
+  gastosAgrupados,
+  categorias,
+  onAccionesGasto,
+}: Props) {
   const fechas = Object.keys(gastosAgrupados).sort(
     (a, b) => new Date(b).getTime() - new Date(a).getTime(),
   );
+
+  if (fechas.length === 0) {
+    return (
+      <View style={styles.empty}>
+        <Text style={styles.emptyText}>No hay gastos este mes</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -30,20 +39,22 @@ export default function GastosList({ gastosAgrupados, categorias }: Props) {
 
         return (
           <View style={{ marginBottom: 15 }}>
-            {/* Header de fecha + total */}
             <View style={styles.headerContainer}>
               <Text style={styles.headerDateTotal}>
                 {formatearFecha(fecha)}
               </Text>
-
               <Text style={styles.headerDateTotal}>
                 ${formatearMonto(totalPorFecha)}
               </Text>
             </View>
 
-            {/* Lista de gastos */}
             {gastosAgrupados[fecha].map((gasto) => (
-              <GastoItem key={gasto.id} gasto={gasto} categorias={categorias} />
+              <GastoItem
+                key={gasto.id}
+                gasto={gasto}
+                categorias={categorias}
+                onAcciones={onAccionesGasto}
+              />
             ))}
           </View>
         );
@@ -63,5 +74,15 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#f5f5f5",
     padding: 5,
+  },
+  empty: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 40,
+  },
+  emptyText: {
+    color: "#999",
+    fontSize: 16,
   },
 });
