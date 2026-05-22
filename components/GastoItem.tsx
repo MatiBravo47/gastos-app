@@ -34,7 +34,9 @@ export default function GastoItem({
         {titulo}
       </Text>
 
-      <Text style={styles.monto}>$ {formatearMonto(monto)}</Text>
+      <Text style={[styles.monto, { color: color }]}>
+        $ {formatearMonto(monto)}
+      </Text>
 
       {onPress && (
         <TouchableOpacity

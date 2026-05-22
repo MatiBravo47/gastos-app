@@ -1,54 +1,26 @@
-import {
-  Alert,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 
 import GastosList from "@/components/FlatList";
+import GastoActionsModal from "@/components/GastoActionsModal";
 import HeaderIndex from "@/components/HeaderIndex";
+import MesNavigator from "@/components/MesNavigator";
 import TotalGastos from "@/components/totalGastos";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
+import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { Gasto } from "@/types/Gasto";
 import { router } from "expo-router";
 import { useState } from "react";
 
 export default function HomeScreen() {
-  const hoy = new Date();
-  const [mes, setMes] = useState(hoy.getMonth());
-  const [anio, setAnio] = useState(hoy.getFullYear());
-
+  const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
   const { eliminarGasto } = useGastosContext();
   const { total, gastosAgrupados } = useGastosResumen(mes, anio);
-
   const [gastoSeleccionado, setGastoSeleccionado] = useState<Gasto | null>(
     null,
   );
   const [modalVisible, setModalVisible] = useState(false);
-
-  const irMesAnterior = () => {
-    if (mes === 0) {
-      setMes(11);
-      setAnio((a) => a - 1);
-    } else {
-      setMes((m) => m - 1);
-    }
-  };
-
-  const irMesSiguiente = () => {
-    const esMesActual = mes === hoy.getMonth() && anio === hoy.getFullYear();
-    if (esMesActual) return;
-    if (mes === 11) {
-      setMes(0);
-      setAnio((a) => a + 1);
-    } else {
-      setMes((m) => m + 1);
-    }
-  };
 
   const handleLongPress = (gasto: Gasto) => {
     setGastoSeleccionado(gasto);
@@ -84,7 +56,9 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <HeaderIndex
+      <HeaderIndex />
+
+      <MesNavigator
         mes={mes}
         anio={anio}
         onAnterior={irMesAnterior}
@@ -98,46 +72,13 @@ export default function HomeScreen() {
         categorias={categorias}
         onAccionesGasto={handleLongPress}
       />
-
-      {/* Modal de acciones */}
-      <Modal
+      <GastoActionsModal
         visible={modalVisible}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableOpacity
-          style={styles.overlay}
-          activeOpacity={1}
-          onPress={() => setModalVisible(false)}
-        >
-          <View style={styles.sheet}>
-            <Text style={styles.sheetTitle} numberOfLines={1}>
-              {gastoSeleccionado?.descripcion}
-            </Text>
-
-            <TouchableOpacity style={styles.sheetBtn} onPress={handleEditar}>
-              <Text style={styles.sheetBtnText}>Editar</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.sheetBtn, styles.sheetBtnDanger]}
-              onPress={handleEliminar}
-            >
-              <Text style={[styles.sheetBtnText, styles.sheetBtnTextDanger]}>
-                Eliminar
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[styles.sheetBtn, styles.sheetBtnCancel]}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.sheetBtnText}>Cancelar</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+        gasto={gastoSeleccionado}
+        onClose={() => setModalVisible(false)}
+        onEditar={handleEditar}
+        onEliminar={handleEliminar}
+      />
     </View>
   );
 }

@@ -49,7 +49,7 @@ export default function NewGastoScreen() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: "#000" }}>
       <View style={styles.header}>
         <Text style={styles.title}>Nuevo gasto</Text>
       </View>
@@ -78,6 +78,7 @@ export default function NewGastoScreen() {
 
       <View style={styles.buttonContainer}>
         <AppButton title="Guardar" onPress={handleAgregar} />
+        <AppButton title="Cancelar" onPress={() => router.back()} />
       </View>
     </View>
   );
@@ -85,7 +86,8 @@ export default function NewGastoScreen() {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
+    gap: 10,
     justifyContent: "center",
     marginTop: 20,
   },

@@ -17,7 +17,7 @@ export default function CategoryPicker({
 }: Props) {
   return (
     <View style={{ marginBottom: 10 }}>
-      <Text style={{ marginBottom: 4, color: "#333" }}>{label}</Text>
+      <Text style={{ marginBottom: 4, color: "#ffffff" }}>{label}</Text>
 
       <View style={styles.pickerInput}>
         <Picker

@@ -34,6 +34,6 @@ const styles = StyleSheet.create({
   },
   labelForm: {
     marginBottom: 4,
-    color: "#333",
+    color: "#ffffff",
   },
 });
