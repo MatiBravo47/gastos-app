@@ -117,7 +117,7 @@ export default function HomeScreen() {
             </Text>
 
             <TouchableOpacity style={styles.sheetBtn} onPress={handleEditar}>
-              <Text style={styles.sheetBtnText}>✏️ Editar</Text>
+              <Text style={styles.sheetBtnText}>Editar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -125,7 +125,7 @@ export default function HomeScreen() {
               onPress={handleEliminar}
             >
               <Text style={[styles.sheetBtnText, styles.sheetBtnTextDanger]}>
-                🗑️ Eliminar
+                Eliminar
               </Text>
             </TouchableOpacity>
 
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "white",
+    backgroundColor: "#000",
   },
   overlay: {
     flex: 1,

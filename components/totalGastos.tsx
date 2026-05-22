@@ -13,11 +13,25 @@ export default function TotalGastos({ total }: Props) {
   }
   return (
     <View>
-      <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
+      <Text
+        style={{
+          textAlign: "center",
+          fontSize: 40,
+          fontWeight: "bold",
+          color: "#ffffff",
+        }}
+      >
         ${formatearMonto(total)}
       </Text>
 
-      <Text style={{ textAlign: "center", fontSize: 17, marginBottom: 10 }}>
+      <Text
+        style={{
+          textAlign: "center",
+          fontSize: 17,
+          marginBottom: 10,
+          color: "#ffffff",
+        }}
+      >
         Gasto mensual
       </Text>
     </View>

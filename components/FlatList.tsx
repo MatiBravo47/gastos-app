@@ -38,24 +38,33 @@ export default function GastosList({
         );
 
         return (
-          <View style={{ marginBottom: 15 }}>
+          <View style={{ marginBottom: 20 }}>
             <View style={styles.headerContainer}>
               <Text style={styles.headerDateTotal}>
                 {formatearFecha(fecha)}
               </Text>
+
               <Text style={styles.headerDateTotal}>
                 ${formatearMonto(totalPorFecha)}
               </Text>
             </View>
 
-            {gastosAgrupados[fecha].map((gasto) => (
-              <GastoItem
-                key={gasto.id}
-                gasto={gasto}
-                categorias={categorias}
-                onAcciones={onAccionesGasto}
-              />
-            ))}
+            {gastosAgrupados[fecha].map((gasto) => {
+              const categoriaData = categorias.find(
+                (c) => c.nombre === gasto.categoria,
+              );
+
+              return (
+                <GastoItem
+                  key={gasto.id}
+                  titulo={gasto.descripcion}
+                  monto={gasto.monto}
+                  icono={categoriaData?.icono || "help-circle"}
+                  color={categoriaData?.color || "#999"}
+                  onPress={() => onAccionesGasto(gasto)}
+                />
+              );
+            })}
           </View>
         );
       }}
@@ -64,25 +73,29 @@ export default function GastosList({
 }
 
 const styles = StyleSheet.create({
-  headerDateTotal: {
-    color: "#333",
-    fontWeight: "bold",
-    fontSize: 18,
-  },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: "#f5f5f5",
-    padding: 5,
+    alignItems: "center",
+    marginBottom: 10,
+    paddingHorizontal: 4,
   },
+
+  headerDateTotal: {
+    color: "#ffffff",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+
   empty: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: 40,
   },
+
   emptyText: {
-    color: "#999",
+    color: "#9ca3af",
     fontSize: 16,
   },
 });

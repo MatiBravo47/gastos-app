@@ -1,75 +1,102 @@
-import { Categoria } from "@/types/Categoria";
-import { Gasto } from "@/types/Gasto";
 import { formatearMonto } from "@/utils/format";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
-  gasto: Gasto;
-  categorias: Categoria[];
-  onAcciones: (gasto: Gasto) => void;
+  titulo: string;
+  monto: number;
+  icono: any;
+  color: string;
+  onPress?: () => void;
 };
 
-export default function GastoItem({ gasto, categorias, onAcciones }: Props) {
-  const categoriaData = categorias.find((c) => c.nombre === gasto.categoria);
-
+export default function GastoItem({
+  titulo,
+  monto,
+  icono,
+  color,
+  onPress,
+}: Props) {
   return (
     <View style={styles.gastoContainer}>
       <View
         style={[
           styles.iconContainer,
-          { backgroundColor: categoriaData?.color || "#eee" },
+          {
+            backgroundColor: `${color}20`,
+          },
         ]}
       >
-        <Ionicons
-          name={(categoriaData?.icono as any) || "help-circle"}
-          size={25}
-          color="black"
-        />
+        <Ionicons name={icono} size={24} color={color} />
       </View>
 
       <Text style={styles.descripcion} numberOfLines={1}>
-        {gasto.descripcion}
+        {titulo}
       </Text>
 
-      <Text style={styles.monto}>$ {formatearMonto(gasto.monto)}</Text>
+      <Text style={styles.monto}>$ {formatearMonto(monto)}</Text>
 
-      <TouchableOpacity
-        onPress={() => onAcciones(gasto)}
-        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-        style={styles.menuBtn}
-      >
-        <Ionicons name="ellipsis-vertical" size={20} color="#888" />
-      </TouchableOpacity>
+      {onPress && (
+        <TouchableOpacity
+          onPress={onPress}
+          hitSlop={{
+            top: 10,
+            bottom: 10,
+            left: 10,
+            right: 10,
+          }}
+          style={styles.menuBtn}
+        >
+          <Ionicons name="ellipsis-vertical" size={20} color="#9ca3af" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   gastoContainer: {
-    marginBottom: 8,
+    marginBottom: 10,
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 18,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fafafa",
+    backgroundColor: "#111827",
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+
+    elevation: 5,
   },
+
   iconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 42,
+    height: 42,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
   },
+
   descripcion: {
     flex: 1,
-    fontWeight: "bold",
-    marginHorizontal: 10,
+    fontWeight: "600",
+    marginHorizontal: 12,
+    color: "#ffffff",
+    fontSize: 15,
   },
+
   monto: {
-    fontWeight: "bold",
+    fontWeight: "700",
     marginRight: 8,
+    color: "#ffffff",
+    fontSize: 15,
   },
+
   menuBtn: {
     padding: 4,
   },
