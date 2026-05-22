@@ -25,6 +25,7 @@ export default function CategoryPicker({
           onValueChange={(itemValue) => onValueChange(itemValue)}
           style={{
             paddingHorizontal: 10,
+            color: "#000000",
           }}
         >
           <Picker.Item label="Sin categoria" value="" />
@@ -49,5 +50,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     justifyContent: "center",
     paddingVertical: 1,
+    color: "#000",
   },
 });
