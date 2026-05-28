@@ -2,7 +2,8 @@ import GastoItem from "@/components/GastoItem";
 import HeaderIndex from "@/components/HeaderIndex";
 import MesNavigator from "@/components/MesNavigator";
 import TotalGastos from "@/components/totalGastos";
-import { categorias } from "@/data/categorias";
+import { Colors } from "@/constants/theme";
+import { useCategoriasResumen } from "@/hooks/useCategoriasResumen";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { FlatList, Text, View } from "react-native";
@@ -10,8 +11,12 @@ import { FlatList, Text, View } from "react-native";
 export default function TabTwoScreen() {
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
   const { total } = useGastosResumen(mes, anio);
+  const categoriasResumen = useCategoriasResumen(mes, anio);
+
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "#000" }}>
+    <View
+      style={{ flex: 1, padding: 20, backgroundColor: Colors.dark.background }}
+    >
       <HeaderIndex />
       <MesNavigator
         mes={mes}
@@ -21,14 +26,16 @@ export default function TabTwoScreen() {
       />
 
       <TotalGastos total={total} />
-      <Text style={{ color: "#ffffff" }}>Todas las categorias</Text>
+      <Text style={{ color: Colors.dark.text, fontSize: 20 }}>
+        Todas las categorias
+      </Text>
       <FlatList
-        data={categorias}
+        data={categoriasResumen}
         keyExtractor={(item) => item.nombre}
         renderItem={({ item }) => (
           <GastoItem
             titulo={item.nombre}
-            monto={15000}
+            monto={item.total}
             icono={item.icono}
             color={item.color}
           />

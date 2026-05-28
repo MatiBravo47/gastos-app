@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: "600",
     marginHorizontal: 12,
-    color: "#ffffff",
+    color: "#e0e0e0",
     fontSize: 15,
   },
 

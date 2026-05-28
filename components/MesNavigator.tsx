@@ -1,20 +1,6 @@
+import { MESES } from "@/data/meses";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
-const MESES = [
-  "Enero",
-  "Febrero",
-  "Marzo",
-  "Abril",
-  "Mayo",
-  "Junio",
-  "Julio",
-  "Agosto",
-  "Septiembre",
-  "Octubre",
-  "Noviembre",
-  "Diciembre",
-];
 
 type Props = {
   mes: number;
@@ -44,7 +30,7 @@ export default function MesNavigator({
           right: 10,
         }}
       >
-        <Ionicons name="chevron-back" size={22} color="#fff" />
+        <Ionicons name="chevron-back" size={22} color="#e0e0e0" />
       </TouchableOpacity>
 
       <Text style={styles.mesTexto}>
@@ -64,7 +50,7 @@ export default function MesNavigator({
         <Ionicons
           name="chevron-forward"
           size={22}
-          color={esMesActual ? "#666" : "#fff"}
+          color={esMesActual ? "#666" : "#e0e0e0"}
         />
       </TouchableOpacity>
     </View>

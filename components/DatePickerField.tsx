@@ -14,7 +14,7 @@ export default function DatePickerField({ label, value, onChange }: Props) {
 
   return (
     <View style={{ marginBottom: 10 }}>
-      <Text style={{ marginBottom: 4, color: "#ffffff" }}>{label}</Text>
+      <Text style={{ marginBottom: 4, color: "#e0e0e0" }}>{label}</Text>
       <View style={styles.dateInput}>
         <View>
           <Text style={{ fontSize: 16 }}>{value.toLocaleDateString()}</Text>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   dateInput: {
     borderWidth: 1,
     borderRadius: 6,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#e0e0e0",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

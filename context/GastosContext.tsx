@@ -2,6 +2,15 @@ import { gastosStorage } from "@/services/gastosStorage";
 import { Gasto } from "@/types/Gasto";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
+{
+  /*Este archivo sirve para:
+
+    -compartir gastos entre pantallas
+    -evitar pasar props manualmente
+    -centralizar lógica
+*/
+}
+
 type GastosContextType = {
   gastos: Gasto[];
   agregarGasto: (gasto: Gasto) => void;
@@ -15,6 +24,10 @@ export function GastosProvider({ children }: { children: React.ReactNode }) {
   const [gastos, setGastos] = useState<Gasto[]>([]);
   const isFirstRender = useRef(true);
 
+  {
+    /* Cargar gastos */
+    /* Se ejecuta UNA sola vez cuando abre la app */
+  }
   useEffect(() => {
     const load = async () => {
       const data = await gastosStorage.getGastos();
@@ -23,6 +36,9 @@ export function GastosProvider({ children }: { children: React.ReactNode }) {
     load();
   }, []);
 
+  {
+    /* Cada vez que cambian los gastos: guardar automáticamente */
+  }
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
@@ -35,14 +51,31 @@ export function GastosProvider({ children }: { children: React.ReactNode }) {
     setGastos((prev) => [...prev, gasto]);
   };
 
+  {
+    /*Recorre todos los gastos.
+
+Si encuentra mismo id:
+
+reemplaza
+
+Si no:
+
+deja igual */
+  }
   const editarGasto = (gasto: Gasto) => {
     setGastos((prev) => prev.map((g) => (g.id === gasto.id ? gasto : g)));
   };
 
+  {
+    /*Filtra todos menos el id eliminado. */
+  }
   const eliminarGasto = (id: string) => {
     setGastos((prev) => prev.filter((g) => g.id !== id));
   };
 
+  {
+    /* Acá se comparte todo globalmente. */
+  }
   return (
     <GastosContext.Provider
       value={{ gastos, agregarGasto, editarGasto, eliminarGasto }}

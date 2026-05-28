@@ -17,7 +17,7 @@ export default function CategoryPicker({
 }: Props) {
   return (
     <View style={{ marginBottom: 10 }}>
-      <Text style={{ marginBottom: 4, color: "#ffffff" }}>{label}</Text>
+      <Text style={{ marginBottom: 4, color: "#e0e0e0" }}>{label}</Text>
 
       <View style={styles.pickerInput}>
         <Picker
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   pickerInput: {
     borderWidth: 1,
     borderRadius: 6,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#e0e0e0",
     justifyContent: "center",
     paddingVertical: 1,
     color: "#000",

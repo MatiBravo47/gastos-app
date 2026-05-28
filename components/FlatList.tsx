@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
 
   headerDateTotal: {
-    color: "#ffffff",
+    color: "#e0e0e0",
     fontWeight: "bold",
     fontSize: 18,
   },

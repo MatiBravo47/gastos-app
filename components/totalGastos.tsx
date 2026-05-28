@@ -1,16 +1,10 @@
+import { formatearMonto } from "@/utils/format";
 import { Text, View } from "react-native";
-
-export const formatearMonto = (monto: number) => {
-  return new Intl.NumberFormat("es-AR").format(monto);
-};
 
 type Props = {
   total: number;
 };
 export default function TotalGastos({ total }: Props) {
-  {
-    /* TOTAL */
-  }
   return (
     <View>
       <Text
@@ -18,7 +12,7 @@ export default function TotalGastos({ total }: Props) {
           textAlign: "center",
           fontSize: 40,
           fontWeight: "bold",
-          color: "#ffffff",
+          color: "#e0e0e0",
         }}
       >
         ${formatearMonto(total)}

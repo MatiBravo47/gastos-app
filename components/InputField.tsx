@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
   inputForm: {
     borderWidth: 1,
     borderRadius: 6,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#e0e0e0",
   },
   labelForm: {
     marginBottom: 4,
-    color: "#ffffff",
+    color: "#e0e0e0",
   },
 });

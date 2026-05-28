@@ -49,7 +49,7 @@ export default function NewGastoScreen() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "#000" }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: "#1b1717" }}>
       <View style={styles.header}>
         <Text style={styles.title}>Nuevo gasto</Text>
       </View>

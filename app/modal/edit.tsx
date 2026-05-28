@@ -5,7 +5,7 @@ import InputField from "@/components/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function EditGastoScreen() {
@@ -20,13 +20,6 @@ export default function EditGastoScreen() {
     gasto ? new Date(gasto.fecha) : new Date(),
   );
   const [categoria, setCategoria] = useState(gasto?.categoria ?? "");
-
-  useEffect(() => {
-    if (!gasto) {
-      Alert.alert("Error", "Gasto no encontrado");
-      router.back();
-    }
-  }, [gasto]);
 
   const handleGuardar = () => {
     const montoNum = parseFloat(monto.replace(",", "."));
@@ -51,10 +44,14 @@ export default function EditGastoScreen() {
     router.back();
   };
 
-  if (!gasto) return null;
+  if (!gasto) {
+    Alert.alert("Error", "Gasto no encontrado");
+    router.back();
+    return null;
+  }
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "white" }}>
+    <View style={{ flex: 1, padding: 20, backgroundColor: "#0d1117" }}>
       <View style={styles.header}>
         <Text style={styles.title}>Editar gasto</Text>
       </View>
@@ -97,7 +94,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#fff",
+    color: "#e0e0e0",
   },
   header: {
     flexDirection: "row",
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 14,
     marginBottom: 10,
-    backgroundColor: "black",
+
     padding: 14,
     borderRadius: 8,
   },

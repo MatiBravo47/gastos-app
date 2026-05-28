@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/theme";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -7,7 +8,7 @@ export default function HeaderIndex() {
   return (
     <View style={styles.header}>
       <View>
-        <Text className="text-lg" style={{ color: "#fff" }}>
+        <Text style={{ color: Colors.dark.text, fontSize: 26 }}>
           Mis gastos
         </Text>
       </View>
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 14,
     marginBottom: 10,
-    backgroundColor: "black",
+    backgroundColor: Colors.dark.background,
     padding: 10,
     borderRadius: 8,
   },

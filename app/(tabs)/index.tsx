@@ -5,6 +5,7 @@ import GastoActionsModal from "@/components/GastoActionsModal";
 import HeaderIndex from "@/components/HeaderIndex";
 import MesNavigator from "@/components/MesNavigator";
 import TotalGastos from "@/components/totalGastos";
+import { Colors } from "@/constants/theme";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#000",
+    backgroundColor: Colors.dark.background,
   },
   overlay: {
     flex: 1,

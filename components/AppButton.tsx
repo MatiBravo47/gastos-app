@@ -24,15 +24,15 @@ export default function AppButton({ title, onPress, style, textStyle }: Props) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "#1b1717",
-    borderColor: "#ffffff",
-    borderWidth: 2,
+    borderColor: "#e0e0e0",
+    borderWidth: 1,
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
     width: "100%",
   },
   text: {
-    color: "#fff",
+    color: "#e0e0e0",
     fontSize: 16,
     fontWeight: "bold",
   },

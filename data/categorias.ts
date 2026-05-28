@@ -1,13 +1,12 @@
 //https://ionic.io/ionicons
-
 export const categorias = [
-  { nombre: "Comida", icono: "fast-food", color: "#FF7043" },
-  { nombre: "Farmacia", icono: "medkit", color: "#43ffc7" },
-  { nombre: "Verduleria", icono: "nutrition-outline", color: "#43ffc7" },
-  { nombre: "Peluqueria", icono: "cut-outline", color: "#43ffc7" },
-  { nombre: "Transporte", icono: "car", color: "#42A5F5" },
-  { nombre: "Delivery", icono: "apps", color: "#AB47BC" },
-  { nombre: "Ocio", icono: "game-controller", color: "#66BB6A" },
-  { nombre: "Servicios", icono: "construct", color: "#FFCA28" },
-  { nombre: "Otros", icono: "apps", color: "#AB47BC" },
+  { nombre: "Supermercado", icono: "cart-outline", color: "#43A047" },
+  { nombre: "Farmacia", icono: "medkit", color: "#E53935" },
+  { nombre: "Verduleria", icono: "nutrition-outline", color: "#7CB342" },
+  { nombre: "Peluqueria", icono: "cut-outline", color: "#EC407A" },
+  { nombre: "Transporte", icono: "bus-outline", color: "#1E88E5" },
+  { nombre: "Delivery", icono: "pizza-outline", color: "#FB8C00" },
+  { nombre: "Ocio", icono: "game-controller", color: "#8E24AA" },
+  { nombre: "Servicios", icono: "construct", color: "#FDD835" },
+  { nombre: "Otros", icono: "apps", color: "#78909C" },
 ];
