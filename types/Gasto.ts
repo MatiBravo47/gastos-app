@@ -4,4 +4,5 @@ export type Gasto = {
   monto: number;
   fecha: string;
   categoria: string;
+  metodoPago: string;
 };

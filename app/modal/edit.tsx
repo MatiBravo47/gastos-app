@@ -1,9 +1,10 @@
 import AppButton from "@/components/AppButton";
-import CategoryPicker from "@/components/CategoryPicker";
+import CustomPicker from "@/components/CustomPicker";
 import DatePickerField from "@/components/DatePickerField";
 import InputField from "@/components/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
+import { metodosPago } from "@/data/metodosPago";
 import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
@@ -20,6 +21,7 @@ export default function EditGastoScreen() {
     gasto ? new Date(gasto.fecha) : new Date(),
   );
   const [categoria, setCategoria] = useState(gasto?.categoria ?? "");
+  const [metodoPago, setMetodoPago] = useState("");
 
   const handleGuardar = () => {
     const montoNum = parseFloat(monto.replace(",", "."));
@@ -33,12 +35,18 @@ export default function EditGastoScreen() {
       return;
     }
 
+    if (!metodoPago) {
+      Alert.alert("Error", "Por favor elegí un método de pago.");
+      return;
+    }
+
     editarGasto({
       id: id!,
       descripcion: descripcion.trim(),
       monto: montoNum,
       fecha: fecha.toISOString(),
       categoria,
+      metodoPago,
     });
 
     router.back();
@@ -69,11 +77,20 @@ export default function EditGastoScreen() {
         keyboardType="numeric"
       />
 
-      <CategoryPicker
-        label="Categoria"
+      <CustomPicker
+        label="Categoría"
         selectedValue={categoria}
         onValueChange={setCategoria}
-        categorias={categorias}
+        opciones={categorias}
+        placeholder="Sin categoría"
+      />
+
+      <CustomPicker
+        label="Método de pago"
+        selectedValue={metodoPago}
+        onValueChange={setMetodoPago}
+        opciones={metodosPago}
+        placeholder="Sin método de pago"
       />
 
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />

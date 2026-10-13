@@ -1,20 +1,21 @@
 import AppButton from "@/components/AppButton";
-import CategoryPicker from "@/components/CategoryPicker";
+import CustomPicker from "@/components/CustomPicker";
 import DatePickerField from "@/components/DatePickerField";
 import InputField from "@/components/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
+import { metodosPago } from "@/data/metodosPago";
 import { router } from "expo-router";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function NewGastoScreen() {
   const { agregarGasto } = useGastosContext();
-
   const [descripcion, setDescripcion] = useState("");
   const [monto, setMonto] = useState("");
   const [fecha, setFecha] = useState(new Date());
   const [categoria, setCategoria] = useState("");
+  const [metodoPago, setMetodoPago] = useState("");
 
   const handleAgregar = () => {
     const montoNum = parseFloat(monto.replace(",", "."));
@@ -28,6 +29,11 @@ export default function NewGastoScreen() {
       return;
     }
 
+    if (!metodoPago) {
+      Alert.alert("Error", "Por favor elegí un método de pago.");
+      return;
+    }
+
     agregarGasto({
       id:
         typeof crypto !== "undefined"
@@ -37,6 +43,7 @@ export default function NewGastoScreen() {
       monto: montoNum,
       fecha: fecha.toISOString(),
       categoria,
+      metodoPago,
     });
 
     // limpiar
@@ -44,6 +51,7 @@ export default function NewGastoScreen() {
     setMonto("");
     setFecha(new Date());
     setCategoria("");
+    setMetodoPago("");
 
     router.back(); // cerrar modal
   };
@@ -67,11 +75,20 @@ export default function NewGastoScreen() {
         keyboardType="numeric"
       />
 
-      <CategoryPicker
-        label="Categoria"
+      <CustomPicker
+        label="Categoría"
         selectedValue={categoria}
         onValueChange={setCategoria}
-        categorias={categorias}
+        opciones={categorias}
+        placeholder="Sin categoría"
+      />
+
+      <CustomPicker
+        label="Método de pago"
+        selectedValue={metodoPago}
+        onValueChange={setMetodoPago}
+        opciones={metodosPago}
+        placeholder="Sin método de pago"
       />
 
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />

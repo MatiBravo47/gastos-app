@@ -1,9 +1,8 @@
-import { Tabs } from "expo-router";
-import React from "react";
-
-import { IconSymbol } from "@/components/ui/icon-symbol";
 import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import React from "react";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -12,6 +11,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarStyle: {
+          backgroundColor: "#302929",
+          borderTopColor: "#514747",
+          borderTopWidth: 1,
+        },
         headerShown: false,
       }}
     >
@@ -20,16 +24,25 @@ export default function TabLayout() {
         options={{
           title: "Inicio",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <Ionicons size={28} name="home-outline" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Estadisticas",
+          title: "Categorias",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <Ionicons size={28} name="grid-outline" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tarjetas"
+        options={{
+          title: "Metodos de pago",
+          tabBarIcon: ({ color }) => (
+            <Ionicons size={28} name="card-outline" color={color} />
           ),
         }}
       />

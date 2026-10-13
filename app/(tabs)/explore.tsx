@@ -6,6 +6,7 @@ import { Colors } from "@/constants/theme";
 import { useCategoriasResumen } from "@/hooks/useCategoriasResumen";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
+import { router } from "expo-router";
 import { FlatList, Text, View } from "react-native";
 
 export default function TabTwoScreen() {
@@ -18,6 +19,7 @@ export default function TabTwoScreen() {
       style={{ flex: 1, padding: 20, backgroundColor: Colors.dark.background }}
     >
       <HeaderIndex />
+
       <MesNavigator
         mes={mes}
         anio={anio}
@@ -38,6 +40,12 @@ export default function TabTwoScreen() {
             monto={item.total}
             icono={item.icono}
             color={item.color}
+            onPress={() =>
+              router.push({
+                pathname: "../modal/category",
+                params: { categoria: item.nombre },
+              })
+            }
           />
         )}
       />
