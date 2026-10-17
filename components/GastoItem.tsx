@@ -1,6 +1,6 @@
 import { formatearMonto } from "@/utils/format";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
   titulo: string;
@@ -18,7 +18,15 @@ export default function GastoItem({
   onPress,
 }: Props) {
   return (
-    <View style={styles.gastoContainer}>
+    <Pressable
+      onPress={onPress}
+      disabled={!onPress}
+      accessibilityRole={onPress ? "button" : undefined}
+      style={({ pressed }) => [
+        styles.gastoContainer,
+        pressed && onPress && styles.pressed,
+      ]}
+    >
       <View
         style={[
           styles.iconContainer,
@@ -34,25 +42,8 @@ export default function GastoItem({
         {titulo}
       </Text>
 
-      <Text style={[styles.monto, { color: color }]}>
-        $ {formatearMonto(monto)}
-      </Text>
-
-      {onPress && (
-        <TouchableOpacity
-          onPress={onPress}
-          hitSlop={{
-            top: 10,
-            bottom: 10,
-            left: 10,
-            right: 10,
-          }}
-          style={styles.menuBtn}
-        >
-          <Ionicons name="ellipsis-vertical" size={20} color="#9ca3af" />
-        </TouchableOpacity>
-      )}
-    </View>
+      <Text style={[styles.monto, { color }]}>$ {formatearMonto(monto)}</Text>
+    </Pressable>
   );
 }
 
@@ -64,7 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#111827",
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -72,10 +62,11 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-
     elevation: 5,
   },
-
+  pressed: {
+    opacity: 0.75,
+  },
   iconContainer: {
     width: 42,
     height: 42,
@@ -83,7 +74,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
   descripcion: {
     flex: 1,
     fontWeight: "600",
@@ -91,15 +81,9 @@ const styles = StyleSheet.create({
     color: "#e0e0e0",
     fontSize: 15,
   },
-
   monto: {
     fontWeight: "700",
     marginRight: 8,
-    color: "#ffffff",
     fontSize: 15,
-  },
-
-  menuBtn: {
-    padding: 4,
   },
 });
