@@ -9,13 +9,13 @@ export const metodosPago = [
     id: "mercado-pago-credito",
     nombre: "Mercado Pago Credito",
     icono: "cart-outline",
-    color: "#78909C",
+    color: "#00BCFF",
   },
   {
     id: "provincia",
     nombre: "Provincia",
     icono: "medkit",
-    color: "#E53935",
+    color: "#279D2E",
   },
   {
     id: "bbva",
@@ -27,6 +27,6 @@ export const metodosPago = [
     id: "provincia-guille",
     nombre: "Provincia Guille",
     icono: "cut-outline",
-    color: "#EC407A",
+    color: "#279D2E",
   },
 ];

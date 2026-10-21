@@ -1,18 +1,13 @@
 import GastoItem from "@/components/GastoItem";
 import MesNavigator from "@/components/MesNavigator";
+import TotalGastos from "@/components/totalGastos";
 import { Colors } from "@/constants/theme";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
-import { formatearFecha, formatearMonto } from "@/utils/format";
-import { router, useLocalSearchParams } from "expo-router";
-import {
-    FlatList,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { formatearFecha } from "@/utils/format";
+import { useLocalSearchParams } from "expo-router";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function CategoryScreen() {
   const { categoria } = useLocalSearchParams<{ categoria: string }>();
@@ -37,9 +32,6 @@ export default function CategoryScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.back}>← Volver</Text>
-        </TouchableOpacity>
         <Text style={styles.title}>{categoria}</Text>
       </View>
 
@@ -50,7 +42,7 @@ export default function CategoryScreen() {
         onSiguiente={irMesSiguiente}
       />
 
-      <Text style={styles.total}>Total: ${formatearMonto(total)}</Text>
+      <TotalGastos total={total} />
 
       {gastosFiltrados.length === 0 ? (
         <View style={styles.empty}>

@@ -21,7 +21,9 @@ export default function EditGastoScreen() {
     gasto ? new Date(gasto.fecha) : new Date(),
   );
   const [categoria, setCategoria] = useState(gasto?.categoria ?? "");
-  const [metodoPago, setMetodoPago] = useState("");
+  const [metodoPago, setMetodoPago] = useState(
+    gasto?.metodoPago ?? "Efectivo/Debito",
+  );
 
   const handleGuardar = () => {
     const montoNum = Number(monto.replace(/\./g, "").replace(",", "."));

@@ -7,6 +7,7 @@ import { useGastosContext } from "@/context/GastosContext";
 import { metodosPago } from "@/data/metodosPago";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
+import { router } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function TabTwoScreen() {
@@ -52,6 +53,12 @@ export default function TabTwoScreen() {
           key={metodo.id}
           metodo={metodo}
           monto={totalesPorMetodo[metodo.nombre] ?? 0}
+          onPress={() =>
+            router.push({
+              pathname: "/modal/MetodoPagoDetail",
+              params: { metodoPago: metodo.nombre },
+            })
+          }
         />
       ))}
     </View>

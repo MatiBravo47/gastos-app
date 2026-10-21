@@ -45,6 +45,13 @@ export default function RootLayout() {
               headerShown: false,
             }}
           />
+          <Stack.Screen
+            name="modal/MetodoPagoDetail"
+            options={{
+              presentation: "modal",
+              headerShown: false,
+            }}
+          />
         </Stack>
       </GastosProvider>
       <StatusBar style="auto" />

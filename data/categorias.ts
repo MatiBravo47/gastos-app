@@ -8,5 +8,6 @@ export const categorias = [
   { nombre: "Delivery", icono: "pizza-outline", color: "#FB8C00" },
   { nombre: "Ocio", icono: "game-controller", color: "#8E24AA" },
   { nombre: "Servicios", icono: "construct", color: "#FDD835" },
+  { nombre: "Suscripciones", icono: "repeat-outline", color: "#5C6BC0" },
   { nombre: "Otros", icono: "apps", color: "#78909C" },
 ];
