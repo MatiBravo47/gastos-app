@@ -11,9 +11,9 @@ export default function TabTwoScreen() {
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
   const { total } = useGastosResumen(mes, anio);
   const tarjetasFicticias = [
-    { nombre: "Provincia", monto: 85000, color: "#E53935" },
-    { nombre: "BBVA", monto: 42000, color: "#1E88E5" },
-    { nombre: "Mercado Pago Crédito", monto: 27500, color: "#78909C" },
+    { nombre: "Provincia", monto: 85000, color: "#279D2E" },
+    { nombre: "BBVA", monto: 42000, color: "#001391" },
+    { nombre: "Mercado Pago Crédito", monto: 27500, color: "#00BCFF" },
   ];
 
   return (

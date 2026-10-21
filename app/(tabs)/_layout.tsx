@@ -2,7 +2,6 @@ import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import React from "react";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -10,7 +9,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor:
+          Colors[colorScheme === "dark" ? "dark" : "light"].tint,
         tabBarStyle: {
           backgroundColor: "#302929",
           borderTopColor: "#514747",

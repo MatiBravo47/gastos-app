@@ -1,4 +1,5 @@
 import { useGastosContext } from "@/context/GastosContext";
+
 export const useGastosResumen = (mes: number, anio: number) => {
   const { gastos } = useGastosContext();
 
