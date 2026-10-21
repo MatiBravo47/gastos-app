@@ -1,7 +1,7 @@
 import AppButton from "@/components/AppButton";
-import CustomPicker from "@/components/CustomPicker";
-import DatePickerField from "@/components/DatePickerField";
-import InputField from "@/components/InputField";
+import CustomPicker from "@/components/forms/CustomPicker";
+import DatePickerField from "@/components/forms/DatePickerField";
+import InputField from "@/components/forms/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { metodosPago } from "@/data/metodosPago";
@@ -24,7 +24,7 @@ export default function EditGastoScreen() {
   const [metodoPago, setMetodoPago] = useState("");
 
   const handleGuardar = () => {
-    const montoNum = parseFloat(monto.replace(",", "."));
+    const montoNum = Number(monto.replace(/\./g, "").replace(",", "."));
 
     if (!descripcion.trim()) {
       Alert.alert("Error", "Por favor ingresá una descripción.");
@@ -75,6 +75,7 @@ export default function EditGastoScreen() {
         value={monto}
         onChangeText={setMonto}
         keyboardType="numeric"
+        currency
       />
 
       <CustomPicker

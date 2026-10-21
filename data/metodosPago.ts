@@ -1,5 +1,11 @@
 export const metodosPago = [
   {
+    id: "efectivo-debito",
+    nombre: "Efectivo/Débito",
+    icono: "card-outline",
+    color: "#43A047",
+  },
+  {
     id: "mercado-pago-credito",
     nombre: "Mercado Pago Credito",
     icono: "cart-outline",

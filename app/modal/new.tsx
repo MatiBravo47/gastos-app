@@ -1,7 +1,7 @@
 import AppButton from "@/components/AppButton";
-import CustomPicker from "@/components/CustomPicker";
-import DatePickerField from "@/components/DatePickerField";
-import InputField from "@/components/InputField";
+import CustomPicker from "@/components/forms/CustomPicker";
+import DatePickerField from "@/components/forms/DatePickerField";
+import InputField from "@/components/forms/InputField";
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
 import { metodosPago } from "@/data/metodosPago";
@@ -15,10 +15,10 @@ export default function NewGastoScreen() {
   const [monto, setMonto] = useState("");
   const [fecha, setFecha] = useState(new Date());
   const [categoria, setCategoria] = useState("");
-  const [metodoPago, setMetodoPago] = useState("");
+  const [metodoPago, setMetodoPago] = useState("Efectivo/Debito");
 
   const handleAgregar = () => {
-    const montoNum = parseFloat(monto.replace(",", "."));
+    const montoNum = Number(monto.replace(/\./g, "").replace(",", "."));
 
     if (!descripcion.trim()) {
       Alert.alert("Error", "Por favor ingresá una descripción.");
@@ -51,7 +51,7 @@ export default function NewGastoScreen() {
     setMonto("");
     setFecha(new Date());
     setCategoria("");
-    setMetodoPago("");
+    setMetodoPago("Efectivo/Debito");
 
     router.back(); // cerrar modal
   };
@@ -63,7 +63,7 @@ export default function NewGastoScreen() {
       </View>
 
       <InputField
-        label="Descripcion"
+        label="Comercio"
         value={descripcion}
         onChangeText={setDescripcion}
       />
@@ -73,6 +73,7 @@ export default function NewGastoScreen() {
         value={monto}
         onChangeText={setMonto}
         keyboardType="numeric"
+        currency
       />
 
       <CustomPicker
@@ -88,7 +89,7 @@ export default function NewGastoScreen() {
         selectedValue={metodoPago}
         onValueChange={setMetodoPago}
         opciones={metodosPago}
-        placeholder="Sin método de pago"
+        placeholder="Seleccionar método..."
       />
 
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />

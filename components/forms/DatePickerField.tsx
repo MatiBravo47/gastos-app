@@ -33,12 +33,11 @@ export default function DatePickerField({ label, value, onChange }: Props) {
           value={value}
           mode="date"
           display="default"
-          onChange={(event, selectedDate) => {
+          onValueChange={(_event, selectedDate) => {
+            onChange(selectedDate);
             setMostrarPicker(false);
-            if (selectedDate) {
-              onChange(selectedDate);
-            }
           }}
+          onDismiss={() => setMostrarPicker(false)}
         />
       )}
     </View>
