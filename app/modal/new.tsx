@@ -1,4 +1,5 @@
 import AppButton from "@/components/AppButton";
+import ComercioInput from "@/components/forms/ComercioInput";
 import CustomPicker from "@/components/forms/CustomPicker";
 import DatePickerField from "@/components/forms/DatePickerField";
 import InputField from "@/components/forms/InputField";
@@ -10,12 +11,14 @@ import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function NewGastoScreen() {
-  const { agregarGasto } = useGastosContext();
+  const { agregarGasto, gastos } = useGastosContext();
   const [descripcion, setDescripcion] = useState("");
   const [monto, setMonto] = useState("");
   const [fecha, setFecha] = useState(new Date());
   const [categoria, setCategoria] = useState("");
   const [metodoPago, setMetodoPago] = useState("Efectivo/Debito");
+
+  const comercios = gastos.map((gasto) => gasto.descripcion);
 
   const handleAgregar = () => {
     const montoNum = Number(monto.replace(/\./g, "").replace(",", "."));
@@ -62,10 +65,10 @@ export default function NewGastoScreen() {
         <Text style={styles.title}>Nuevo gasto</Text>
       </View>
 
-      <InputField
-        label="Comercio"
+      <ComercioInput
         value={descripcion}
         onChangeText={setDescripcion}
+        comercios={comercios}
       />
 
       <InputField
