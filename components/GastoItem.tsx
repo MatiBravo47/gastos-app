@@ -1,12 +1,20 @@
 import { formatearMonto } from "@/utils/format";
 import { Ionicons } from "@expo/vector-icons";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 type Props = {
   titulo: string;
   monto: number;
   icono: any;
   color: string;
+  logo?: ImageSourcePropType;
   onPress?: () => void;
 };
 
@@ -15,6 +23,7 @@ export default function GastoItem({
   monto,
   icono,
   color,
+  logo,
   onPress,
 }: Props) {
   return (
@@ -35,7 +44,11 @@ export default function GastoItem({
           },
         ]}
       >
-        <Ionicons name={icono} size={24} color={color} />
+        {logo ? (
+          <Image source={logo} style={styles.logo} resizeMode="contain" />
+        ) : (
+          <Ionicons name={icono} size={24} color={color} />
+        )}
       </View>
 
       <Text style={styles.descripcion} numberOfLines={1}>
@@ -85,5 +98,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginRight: 8,
     fontSize: 15,
+  },
+  logo: {
+    width: 50,
+    height: 50,
   },
 });

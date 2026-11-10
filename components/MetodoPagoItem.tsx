@@ -14,6 +14,7 @@ export default function MetodoPagoItem({ metodo, monto, onPress }: Props) {
       monto={monto}
       icono={metodo.icono}
       color={metodo.color}
+      logo={metodo.logo}
       onPress={onPress}
     />
   );
