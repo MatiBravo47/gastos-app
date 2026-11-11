@@ -17,7 +17,12 @@ export default function NewGastoScreen() {
   const [fecha, setFecha] = useState(new Date());
   const [categoria, setCategoria] = useState("");
   const [metodoPago, setMetodoPago] = useState("Efectivo/Debito");
+  const [cuotas, setCuotas] = useState("1");
 
+  const metodoSeleccionado = metodosPago.find(
+    (metodo) => metodo.nombre === metodoPago,
+  );
+  const requiereCuotas = metodoSeleccionado?.tipo === "credito";
   const comercios = gastos.map((gasto) => gasto.descripcion);
 
   const handleAgregar = () => {
@@ -47,6 +52,7 @@ export default function NewGastoScreen() {
       fecha: fecha.toISOString(),
       categoria,
       metodoPago,
+      cuotas: requiereCuotas ? Number(cuotas) : 1,
     });
 
     // limpiar
@@ -55,6 +61,7 @@ export default function NewGastoScreen() {
     setFecha(new Date());
     setCategoria("");
     setMetodoPago("Efectivo/Debito");
+    setCuotas("1");
 
     router.back(); // cerrar modal
   };
@@ -95,6 +102,19 @@ export default function NewGastoScreen() {
         placeholder="Seleccionar método..."
       />
 
+      {requiereCuotas && (
+        <CustomPicker
+          label="Cantidad de cuotas"
+          selectedValue={cuotas}
+          onValueChange={setCuotas}
+          opciones={Array.from({ length: 24 }, (_, i) => ({
+            nombre: String(i + 1),
+            icono: "card-outline",
+            color: "#78909C",
+          }))}
+          placeholder="Elegir cuotas"
+        />
+      )}
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />
 
       <View style={styles.buttonContainer}>

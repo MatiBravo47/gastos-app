@@ -2,36 +2,28 @@ import GastoItem from "@/components/GastoItem";
 import MesNavigator from "@/components/MesNavigator";
 import TotalGastos from "@/components/totalGastos";
 import { Colors } from "@/constants/theme";
-import { useGastosContext } from "@/context/GastosContext";
 import { metodosPago } from "@/data/metodosPago";
+import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { formatearFecha } from "@/utils/format";
 import { useLocalSearchParams } from "expo-router";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-export default function MetodoPagoScreen() {
+export default function MetodoPagoDetail() {
   const { metodoPago } = useLocalSearchParams<{ metodoPago: string }>();
-  const { gastos } = useGastosContext();
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
+  const { gastos: gastosDelMes } = useGastosResumen(mes, anio);
 
-  const gastosFiltrados = gastos
-    .filter((gasto) => {
-      const fecha = new Date(gasto.fecha);
+  const metodo = metodosPago.find((item) => item.nombre === metodoPago);
 
-      return (
-        gasto.metodoPago === metodoPago &&
-        fecha.getMonth() === mes &&
-        fecha.getFullYear() === anio
-      );
-    })
+  const gastosFiltrados = gastosDelMes
+    .filter((gasto) => gasto.metodoPago === metodoPago)
     .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
 
   const total = gastosFiltrados.reduce(
     (acumulado, gasto) => acumulado + gasto.monto,
     0,
   );
-
-  const metodo = metodosPago.find((item) => item.nombre === metodoPago);
 
   return (
     <View style={styles.container}>
@@ -49,7 +41,7 @@ export default function MetodoPagoScreen() {
       {gastosFiltrados.length === 0 ? (
         <View style={styles.empty}>
           <Text style={styles.emptyText}>
-            No hay gastos con este método de pago este mes
+            No hay gastos con este medio de pago este mes
           </Text>
         </View>
       ) : (
@@ -63,7 +55,15 @@ export default function MetodoPagoScreen() {
                 monto={item.monto}
                 icono={metodo?.icono ?? "card-outline"}
                 color={metodo?.color ?? "#999"}
+                logo={metodo?.logo}
               />
+
+              {item.cantidadCuotas > 1 && (
+                <Text style={styles.cuota}>
+                  Cuota {item.cuotaActual} de {item.cantidadCuotas}
+                </Text>
+              )}
+
               <Text style={styles.fecha}>{formatearFecha(item.fecha)}</Text>
             </View>
           )}
@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
   },
   row: {
     marginBottom: 4,
+  },
+  cuota: {
+    color: "#e0e0e0",
+    fontSize: 12,
+    marginLeft: 16,
   },
   fecha: {
     color: "#9ca3af",

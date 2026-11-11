@@ -3,7 +3,6 @@ import MesNavigator from "@/components/MesNavigator";
 import MetodoPagoItem from "@/components/MetodoPagoItem";
 import TotalGastos from "@/components/totalGastos";
 import { Colors } from "@/constants/theme";
-import { useGastosContext } from "@/context/GastosContext";
 import { metodosPago } from "@/data/metodosPago";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
@@ -12,13 +11,7 @@ import { Text, View } from "react-native";
 
 export default function TabTwoScreen() {
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
-  const { total } = useGastosResumen(mes, anio);
-  const { gastos } = useGastosContext();
-
-  const gastosDelMes = gastos.filter((gasto) => {
-    const fecha = new Date(gasto.fecha);
-    return fecha.getMonth() === mes && fecha.getFullYear() === anio;
-  });
+  const { total, gastos: gastosDelMes } = useGastosResumen(mes, anio);
 
   const totalesPorMetodo = gastosDelMes.reduce<Record<string, number>>(
     (totales, gasto) => {

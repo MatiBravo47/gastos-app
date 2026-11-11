@@ -1,19 +1,27 @@
 import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
+import { obtenerCuotaDelMes } from "@/utils/cuotas";
 
 export const useCategoriasResumen = (mes: number, anio: number) => {
   const { gastos } = useGastosContext();
 
-  const gastosFiltrados = gastos.filter((gasto) => {
-    const fecha = new Date(gasto.fecha);
+  const gastosDelMes = gastos.flatMap((gasto) => {
+    const cuota = obtenerCuotaDelMes(gasto, mes, anio);
 
-    return fecha.getMonth() === mes && fecha.getFullYear() === anio;
+    if (!cuota) return [];
+
+    return [
+      {
+        ...gasto,
+        monto: cuota.importe,
+      },
+    ];
   });
 
   const resumenCategorias = categorias.map((categoria) => {
-    const total = gastosFiltrados
-      .filter((g) => g.categoria === categoria.nombre)
-      .reduce((acc, gasto) => acc + gasto.monto, 0);
+    const total = gastosDelMes
+      .filter((gasto) => gasto.categoria === categoria.nombre)
+      .reduce((acumulado, gasto) => acumulado + gasto.monto, 0);
 
     return {
       ...categoria,

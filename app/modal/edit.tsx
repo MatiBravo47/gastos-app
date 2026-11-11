@@ -24,6 +24,12 @@ export default function EditGastoScreen() {
   const [metodoPago, setMetodoPago] = useState(
     gasto?.metodoPago ?? "Efectivo/Debito",
   );
+  const [cuotas, setCuotas] = useState(String(gasto?.cuotas ?? 1));
+
+  const metodoSeleccionado = metodosPago.find(
+    (metodo) => metodo.nombre === metodoPago,
+  );
+  const requiereCuotas = metodoSeleccionado?.tipo === "credito";
 
   const handleGuardar = () => {
     const montoNum = Number(monto.replace(/\./g, "").replace(",", "."));
@@ -49,6 +55,7 @@ export default function EditGastoScreen() {
       fecha: fecha.toISOString(),
       categoria,
       metodoPago,
+      cuotas: requiereCuotas ? Number(cuotas) : 1,
     });
 
     router.back();
@@ -95,6 +102,20 @@ export default function EditGastoScreen() {
         opciones={metodosPago}
         placeholder="Sin método de pago"
       />
+
+      {requiereCuotas && (
+        <CustomPicker
+          label="Cantidad de cuotas"
+          selectedValue={cuotas}
+          onValueChange={setCuotas}
+          opciones={Array.from({ length: 24 }, (_, i) => ({
+            nombre: String(i + 1),
+            icono: "card-outline",
+            color: "#78909C",
+          }))}
+          placeholder="Elegir cuotas"
+        />
+      )}
 
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />
 

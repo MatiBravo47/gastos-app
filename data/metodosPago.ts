@@ -2,12 +2,14 @@ export const metodosPago = [
   {
     id: "efectivo-debito",
     nombre: "Efectivo/Débito",
+    tipo: "debito",
     icono: "card-outline",
     color: "#43A047",
   },
   {
     id: "mercado-pago-credito",
     nombre: "Mercado Pago Credito",
+    tipo: "credito",
     icono: "cart-outline",
     logo: require("../assets/images/metodos-pago/mercado-pago.png"),
     color: "#00BCFF",
@@ -15,6 +17,7 @@ export const metodosPago = [
   {
     id: "provincia",
     nombre: "Provincia",
+    tipo: "credito",
     icono: "medkit",
     logo: require("../assets/images/metodos-pago/provincia.png"),
     color: "#279D2E",
@@ -22,6 +25,7 @@ export const metodosPago = [
   {
     id: "bbva",
     nombre: "BBVA",
+    tipo: "credito",
     icono: "nutrition-outline",
     logo: require("../assets/images/metodos-pago/BBVA-logo.png"),
     color: "#1E88E5",
@@ -29,6 +33,7 @@ export const metodosPago = [
   {
     id: "provincia-guille",
     nombre: "Provincia Guille",
+    tipo: "credito",
     icono: "cut-outline",
     logo: require("../assets/images/metodos-pago/provincia.png"),
     color: "#279D2E",

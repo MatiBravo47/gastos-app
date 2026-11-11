@@ -5,9 +5,14 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import GastoItem from "./GastoItem";
 
 type Props = {
-  gastosAgrupados: Record<string, Gasto[]>;
+  gastosAgrupados: Record<string, GastoDelMes[]>;
   categorias: Categoria[];
   onAccionesGasto: (gasto: Gasto) => void;
+};
+
+type GastoDelMes = Gasto & {
+  cuotaActual?: number;
+  cantidadCuotas?: number;
 };
 
 export default function GastosList({
@@ -55,14 +60,21 @@ export default function GastosList({
               );
 
               return (
-                <GastoItem
-                  key={gasto.id}
-                  titulo={gasto.descripcion}
-                  monto={gasto.monto}
-                  icono={categoriaData?.icono || "help-circle"}
-                  color={categoriaData?.color || "#999"}
-                  onPress={() => onAccionesGasto(gasto)}
-                />
+                <View key={gasto.id}>
+                  <GastoItem
+                    titulo={gasto.descripcion}
+                    monto={gasto.monto}
+                    icono={categoriaData?.icono || "help-circle"}
+                    color={categoriaData?.color || "#999"}
+                    onPress={() => onAccionesGasto(gasto)}
+                  />
+
+                  {gasto.cantidadCuotas && gasto.cantidadCuotas > 1 && (
+                    <Text style={styles.cuota}>
+                      Cuota {gasto.cuotaActual} de {gasto.cantidadCuotas}
+                    </Text>
+                  )}
+                </View>
               );
             })}
           </View>
@@ -97,5 +109,12 @@ const styles = StyleSheet.create({
   emptyText: {
     color: "#9ca3af",
     fontSize: 16,
+  },
+  cuota: {
+    color: "#9ca3af",
+    fontSize: 12,
+    marginLeft: 16,
+    marginTop: -6,
+    marginBottom: 8,
   },
 });

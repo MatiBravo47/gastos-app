@@ -2,8 +2,8 @@ import GastoItem from "@/components/GastoItem";
 import MesNavigator from "@/components/MesNavigator";
 import TotalGastos from "@/components/totalGastos";
 import { Colors } from "@/constants/theme";
-import { useGastosContext } from "@/context/GastosContext";
 import { categorias } from "@/data/categorias";
+import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { formatearFecha } from "@/utils/format";
 import { useLocalSearchParams } from "expo-router";
@@ -11,23 +11,19 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 
 export default function CategoryScreen() {
   const { categoria } = useLocalSearchParams<{ categoria: string }>();
-  const { gastos } = useGastosContext();
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
+  const { gastos: gastosDelMes } = useGastosResumen(mes, anio);
 
   const categoriaData = categorias.find((c) => c.nombre === categoria);
 
-  const gastosFiltrados = gastos
-    .filter((g) => {
-      const fecha = new Date(g.fecha);
-      return (
-        g.categoria === categoria &&
-        fecha.getMonth() === mes &&
-        fecha.getFullYear() === anio
-      );
-    })
+  const gastosFiltrados = gastosDelMes
+    .filter((gasto) => gasto.categoria === categoria)
     .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
 
-  const total = gastosFiltrados.reduce((acc, g) => acc + g.monto, 0);
+  const total = gastosFiltrados.reduce(
+    (acumulado, gasto) => acumulado + gasto.monto,
+    0,
+  );
 
   return (
     <View style={styles.container}>
@@ -62,6 +58,13 @@ export default function CategoryScreen() {
                 icono={categoriaData?.icono ?? "apps"}
                 color={categoriaData?.color ?? "#999"}
               />
+
+              {item.cantidadCuotas > 1 && (
+                <Text style={styles.cuota}>
+                  Cuota {item.cuotaActual} de {item.cantidadCuotas}
+                </Text>
+              )}
+
               <Text style={styles.fecha}>{formatearFecha(item.fecha)}</Text>
             </View>
           )}
@@ -82,24 +85,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     gap: 8,
   },
-  back: {
-    color: Colors.dark.tint,
-    fontSize: 16,
-  },
   title: {
     color: Colors.dark.text,
     fontSize: 24,
     fontWeight: "700",
   },
-  total: {
-    color: "#e0e0e0",
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
-    marginVertical: 12,
-  },
   row: {
     marginBottom: 4,
+  },
+  cuota: {
+    color: "#e0e0e0",
+    fontSize: 12,
+    marginLeft: 16,
   },
   fecha: {
     color: "#9ca3af",

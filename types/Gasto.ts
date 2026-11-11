@@ -5,4 +5,5 @@ export type Gasto = {
   fecha: string;
   categoria: string;
   metodoPago: string;
+  cuotas?: number;
 };
