@@ -2,7 +2,7 @@ import GastoItem from "@/components/GastoItem";
 import MesNavigator from "@/components/MesNavigator";
 import TotalGastos from "@/components/totalGastos";
 import { Colors } from "@/constants/theme";
-import { metodosPago } from "@/data/metodosPago";
+import { categorias } from "@/data/categorias";
 import { useGastosResumen } from "@/hooks/useGastosResumen";
 import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { formatearFecha } from "@/utils/format";
@@ -13,8 +13,6 @@ export default function MetodoPagoDetail() {
   const { metodoPago } = useLocalSearchParams<{ metodoPago: string }>();
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
   const { gastos: gastosDelMes } = useGastosResumen(mes, anio);
-
-  const metodo = metodosPago.find((item) => item.nombre === metodoPago);
 
   const gastosFiltrados = gastosDelMes
     .filter((gasto) => gasto.metodoPago === metodoPago)
@@ -48,25 +46,29 @@ export default function MetodoPagoDetail() {
         <FlatList
           data={gastosFiltrados}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.row}>
-              <GastoItem
-                titulo={item.descripcion}
-                monto={item.monto}
-                icono={metodo?.icono ?? "card-outline"}
-                color={metodo?.color ?? "#999"}
-                logo={metodo?.logo}
-              />
+          renderItem={({ item }) => {
+            const categoria = categorias.find(
+              (cat) => cat.nombre === item.categoria,
+            );
 
-              {item.cantidadCuotas > 1 && (
-                <Text style={styles.cuota}>
-                  Cuota {item.cuotaActual} de {item.cantidadCuotas}
-                </Text>
-              )}
+            return (
+              <View style={styles.row}>
+                <Text style={styles.fecha}>{formatearFecha(item.fecha)}</Text>
+                <GastoItem
+                  titulo={item.descripcion}
+                  monto={item.monto}
+                  icono={categoria?.icono ?? "apps"}
+                  color={categoria?.color ?? "#999"}
+                />
 
-              <Text style={styles.fecha}>{formatearFecha(item.fecha)}</Text>
-            </View>
-          )}
+                {item.cantidadCuotas > 1 && (
+                  <Text style={styles.cuota}>
+                    Cuota {item.cuotaActual} de {item.cantidadCuotas}
+                  </Text>
+                )}
+              </View>
+            );
+          }}
         />
       )}
     </View>

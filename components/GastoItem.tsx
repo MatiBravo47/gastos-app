@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#111827",
+    backgroundColor: "#20242c",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
   },
 });

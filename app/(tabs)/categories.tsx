@@ -10,7 +10,7 @@ import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { router } from "expo-router";
 import { FlatList, Text, View } from "react-native";
 
-export default function TabTwoScreen() {
+export default function CategoriesScreen() {
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
   const { total } = useGastosResumen(mes, anio);
   const categoriasResumen = useCategoriasResumen(mes, anio);

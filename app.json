@@ -4,7 +4,7 @@
     "slug": "gastos-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon2.png",
+    "icon": "./assets/images/app-icon.png",
     "scheme": "gastosapp",
     "userInterfaceStyle": "automatic",
     "ios": {
@@ -15,15 +15,14 @@
       "package": "com.matiasbravoneron.gastosapp"
     },
     "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/new-splash-icon.png",
+          "image": "./assets/images/app-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",

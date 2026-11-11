@@ -1,5 +1,7 @@
-import { Gasto } from "@/types/Gasto";
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Colors } from "@/constants/theme";
+import type { Gasto } from "@/types/Gasto";
+import { Ionicons } from "@expo/vector-icons";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 
 type Props = {
   visible: boolean;
@@ -20,40 +22,69 @@ export default function GastoActionsModal({
     <Modal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType="slide"
       onRequestClose={onClose}
     >
-      <TouchableOpacity
-        style={styles.overlay}
-        activeOpacity={1}
-        onPress={onClose}
-      >
-        <View style={styles.sheet}>
-          <Text style={styles.sheetTitle} numberOfLines={1}>
-            {gasto?.descripcion}
+      <Pressable style={styles.overlay} onPress={onClose}>
+        <Pressable
+          style={styles.sheet}
+          onPress={(event) => event.stopPropagation()}
+        >
+          <View style={styles.handle} />
+
+          <Text style={styles.title} numberOfLines={1}>
+            {gasto?.descripcion ?? "Gasto"}
           </Text>
 
-          <TouchableOpacity style={styles.sheetBtn} onPress={onEditar}>
-            <Text style={styles.sheetBtnText}>Editar</Text>
-          </TouchableOpacity>
+          <Pressable
+            style={({ pressed }) => [
+              styles.actionButton,
+              pressed && styles.pressed,
+            ]}
+            onPress={onEditar}
+            accessibilityRole="button"
+          >
+            <Ionicons name="create-outline" size={21} color="#D7DCDE" />
+            <Text style={styles.actionText}>Editar gasto</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={18}
+              color="#8B9498"
+              style={styles.trailingIcon}
+            />
+          </Pressable>
 
-          <TouchableOpacity
-            style={[styles.sheetBtn, styles.sheetBtnDanger]}
+          <Pressable
+            style={({ pressed }) => [
+              styles.actionButton,
+              styles.deleteButton,
+              pressed && styles.pressed,
+            ]}
             onPress={onEliminar}
+            accessibilityRole="button"
           >
-            <Text style={[styles.sheetBtnText, styles.sheetBtnTextDanger]}>
-              Eliminar
-            </Text>
-          </TouchableOpacity>
+            <Ionicons name="trash-outline" size={21} color="#FF7777" />
+            <Text style={styles.deleteText}>Eliminar gasto</Text>
+            <Ionicons
+              name="chevron-forward"
+              size={18}
+              color="#C76A6A"
+              style={styles.trailingIcon}
+            />
+          </Pressable>
 
-          <TouchableOpacity
-            style={[styles.sheetBtn, styles.sheetBtnCancel]}
+          <Pressable
+            style={({ pressed }) => [
+              styles.cancelButton,
+              pressed && styles.pressed,
+            ]}
             onPress={onClose}
+            accessibilityRole="button"
           >
-            <Text style={styles.sheetBtnText}>Cancelar</Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
+            <Text style={styles.cancelText}>Cancelar</Text>
+          </Pressable>
+        </Pressable>
+      </Pressable>
     </Modal>
   );
 }
@@ -61,49 +92,84 @@ export default function GastoActionsModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.45)",
     justifyContent: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.68)",
   },
-
   sheet: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 30,
     gap: 10,
+    backgroundColor: "#202426",
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    borderTopWidth: 1,
+    borderColor: "#343A3D",
   },
-
-  sheetTitle: {
-    fontSize: 16,
+  handle: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    marginBottom: 8,
+    borderRadius: 2,
+    backgroundColor: "#596064",
+  },
+  eyebrow: {
+    color: "#9BA1A6",
+    fontSize: 12,
     fontWeight: "700",
-    color: "#333",
-    marginBottom: 6,
+    letterSpacing: 1,
     textAlign: "center",
   },
-
-  sheetBtn: {
-    padding: 16,
-    borderRadius: 10,
-    backgroundColor: "#f0f0f0",
+  title: {
+    color: Colors.dark.text,
+    fontSize: 19,
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  actionButton: {
+    minHeight: 54,
+    paddingHorizontal: 16,
+    borderRadius: 13,
+    borderWidth: 1,
+    borderColor: "#343A3D",
+    backgroundColor: "#292F31",
+    flexDirection: "row",
     alignItems: "center",
+    gap: 12,
   },
-
-  sheetBtnDanger: {
-    backgroundColor: "#fff0f0",
+  deleteButton: {
+    backgroundColor: "#332426",
+    borderColor: "#563236",
   },
-
-  sheetBtnCancel: {
-    backgroundColor: "#e8e8e8",
-    marginTop: 4,
-  },
-
-  sheetBtnText: {
+  actionText: {
+    color: "#E1E5E6",
     fontSize: 16,
     fontWeight: "600",
-    color: "#222",
   },
-
-  sheetBtnTextDanger: {
-    color: "#cc2200",
+  deleteText: {
+    color: "#FF8585",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  trailingIcon: {
+    marginLeft: "auto",
+  },
+  cancelButton: {
+    minHeight: 48,
+    marginTop: 4,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 13,
+    backgroundColor: "#252A2C",
+  },
+  cancelText: {
+    color: "#BEC4C6",
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  pressed: {
+    opacity: 0.75,
   },
 });

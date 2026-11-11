@@ -121,6 +121,7 @@ export default function EditGastoScreen() {
 
       <View style={styles.buttonContainer}>
         <AppButton title="Guardar cambios" onPress={handleGuardar} />
+        <AppButton title="Cancelar" onPress={() => router.back()} />
       </View>
     </View>
   );
@@ -128,8 +129,8 @@ export default function EditGastoScreen() {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: "column",
+    gap: 10,
     marginTop: 20,
   },
   title: {

@@ -11,7 +11,7 @@ export const metodosPago = [
     nombre: "Mercado Pago Credito",
     tipo: "credito",
     icono: "cart-outline",
-    logo: require("../assets/images/metodos-pago/mercado-pago.png"),
+    logo: require("../assets/images/metodos-pago/Mercado-Pago-Icon.png"),
     color: "#00BCFF",
   },
   {

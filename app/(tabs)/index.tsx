@@ -1,5 +1,3 @@
-import { Alert, StyleSheet, View } from "react-native";
-
 import GastosList from "@/components/FlatList";
 import GastoActionsModal from "@/components/GastoActionsModal";
 import HeaderIndex from "@/components/HeaderIndex";
@@ -13,6 +11,7 @@ import { useMesNavigator } from "@/hooks/useMesNavigator";
 import { Gasto } from "@/types/Gasto";
 import { router } from "expo-router";
 import { useState } from "react";
+import { Alert, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
   const { mes, anio, irMesAnterior, irMesSiguiente } = useMesNavigator();
