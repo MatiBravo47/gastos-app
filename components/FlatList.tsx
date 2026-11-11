@@ -13,6 +13,7 @@ type Props = {
 type GastoDelMes = Gasto & {
   cuotaActual?: number;
   cantidadCuotas?: number;
+  esSuscripcion?: boolean;
 };
 
 export default function GastosList({
@@ -66,7 +67,11 @@ export default function GastosList({
                     monto={gasto.monto}
                     icono={categoriaData?.icono || "help-circle"}
                     color={categoriaData?.color || "#999"}
-                    onPress={() => onAccionesGasto(gasto)}
+                    onPress={
+                      gasto.esSuscripcion
+                        ? undefined
+                        : () => onAccionesGasto(gasto)
+                    }
                   />
 
                   {gasto.cantidadCuotas && gasto.cantidadCuotas > 1 && (

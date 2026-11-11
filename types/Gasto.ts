@@ -7,3 +7,9 @@ export type Gasto = {
   metodoPago: string;
   cuotas?: number;
 };
+
+export type GastoDelMes = Gasto & {
+  cuotaActual: number;
+  cantidadCuotas: number;
+  esSuscripcion?: boolean;
+};

@@ -1,3 +1,4 @@
+import AppButton from "@/components/AppButton";
 import GastoItem from "@/components/GastoItem";
 import HeaderIndex from "@/components/HeaderIndex";
 import MesNavigator from "@/components/MesNavigator";
@@ -28,6 +29,10 @@ export default function TabTwoScreen() {
       />
 
       <TotalGastos total={total} />
+      <AppButton
+        title="Gestionar suscripciones"
+        onPress={() => router.push("/modal/suscripciones")}
+      />
       <Text style={{ color: Colors.dark.text, fontSize: 20 }}>
         Todas las categorias
       </Text>

@@ -11,7 +11,8 @@ import { useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 
 export default function NewGastoScreen() {
-  const { agregarGasto, gastos } = useGastosContext();
+  const { agregarGasto, agregarSuscripcion, gastos } = useGastosContext();
+
   const [descripcion, setDescripcion] = useState("");
   const [monto, setMonto] = useState("");
   const [fecha, setFecha] = useState(new Date());
@@ -19,10 +20,15 @@ export default function NewGastoScreen() {
   const [metodoPago, setMetodoPago] = useState("Efectivo/Debito");
   const [cuotas, setCuotas] = useState("1");
 
+  const esSuscripcion = categoria === "Suscripciones";
+
   const metodoSeleccionado = metodosPago.find(
     (metodo) => metodo.nombre === metodoPago,
   );
-  const requiereCuotas = metodoSeleccionado?.tipo === "credito";
+
+  const requiereCuotas =
+    !esSuscripcion && metodoSeleccionado?.tipo === "credito";
+
   const comercios = gastos.map((gasto) => gasto.descripcion);
 
   const handleAgregar = () => {
@@ -32,7 +38,8 @@ export default function NewGastoScreen() {
       Alert.alert("Error", "Por favor ingresá una descripción.");
       return;
     }
-    if (isNaN(montoNum) || montoNum <= 0) {
+
+    if (!Number.isFinite(montoNum) || montoNum <= 0) {
       Alert.alert("Error", "Por favor ingresá un monto válido mayor a 0.");
       return;
     }
@@ -42,20 +49,35 @@ export default function NewGastoScreen() {
       return;
     }
 
-    agregarGasto({
-      id:
-        typeof crypto !== "undefined"
-          ? crypto.randomUUID()
-          : Date.now().toString(),
-      descripcion: descripcion.trim(),
-      monto: montoNum,
-      fecha: fecha.toISOString(),
-      categoria,
-      metodoPago,
-      cuotas: requiereCuotas ? Number(cuotas) : 1,
-    });
+    const id =
+      typeof crypto !== "undefined"
+        ? crypto.randomUUID()
+        : Date.now().toString();
 
-    // limpiar
+    if (esSuscripcion) {
+      const mesInicio = `${fecha.getFullYear()}-${String(
+        fecha.getMonth() + 1,
+      ).padStart(2, "0")}`;
+
+      agregarSuscripcion({
+        id,
+        nombre: descripcion.trim(),
+        metodoPago,
+        diaCobro: fecha.getDate(),
+        historialPrecios: [{ desdeMes: mesInicio, monto: montoNum }],
+      });
+    } else {
+      agregarGasto({
+        id,
+        descripcion: descripcion.trim(),
+        monto: montoNum,
+        fecha: fecha.toISOString(),
+        categoria,
+        metodoPago,
+        cuotas: requiereCuotas ? Number(cuotas) : 1,
+      });
+    }
+
     setDescripcion("");
     setMonto("");
     setFecha(new Date());
@@ -63,11 +85,11 @@ export default function NewGastoScreen() {
     setMetodoPago("Efectivo/Debito");
     setCuotas("1");
 
-    router.back(); // cerrar modal
+    router.back();
   };
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "#1b1717" }}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Nuevo gasto</Text>
       </View>
@@ -94,6 +116,12 @@ export default function NewGastoScreen() {
         placeholder="Sin categoría"
       />
 
+      {esSuscripcion && (
+        <Text style={styles.subscriptionNote}>
+          Se cobrará todos los meses hasta que la canceles.
+        </Text>
+      )}
+
       <CustomPicker
         label="Método de pago"
         selectedValue={metodoPago}
@@ -115,6 +143,7 @@ export default function NewGastoScreen() {
           placeholder="Elegir cuotas"
         />
       )}
+
       <DatePickerField label="Fecha" value={fecha} onChange={setFecha} />
 
       <View style={styles.buttonContainer}>
@@ -126,6 +155,11 @@ export default function NewGastoScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: "#1b1717",
+  },
   buttonContainer: {
     flexDirection: "column",
     gap: 10,
@@ -146,5 +180,10 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 14,
     borderRadius: 8,
+  },
+  subscriptionNote: {
+    color: "#9ca3af",
+    fontSize: 13,
+    marginBottom: 10,
   },
 });

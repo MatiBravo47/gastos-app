@@ -1,16 +1,12 @@
 import { useGastosContext } from "@/context/GastosContext";
-import type { Gasto } from "@/types/Gasto";
+import type { GastoDelMes } from "@/types/Gasto";
 import { obtenerCuotaDelMes } from "@/utils/cuotas";
-
-type GastoDelMes = Gasto & {
-  cuotaActual: number;
-  cantidadCuotas: number;
-};
+import { obtenerCargoSuscripcionDelMes } from "@/utils/suscripciones";
 
 export const useGastosResumen = (mes: number, anio: number) => {
-  const { gastos } = useGastosContext();
+  const { gastos, suscripciones } = useGastosContext();
 
-  const gastosFiltrados: GastoDelMes[] = gastos.flatMap((gasto) => {
+  const gastosEnCuotas: GastoDelMes[] = gastos.flatMap((gasto) => {
     const cuota = obtenerCuotaDelMes(gasto, mes, anio);
 
     if (!cuota) return [];
@@ -35,9 +31,19 @@ export const useGastosResumen = (mes: number, anio: number) => {
         fecha: fechaCuota.toISOString(),
         cuotaActual: cuota.numero,
         cantidadCuotas: cuota.cantidad,
+        esSuscripcion: false,
       },
     ];
   });
+
+  const cargosSuscripciones: GastoDelMes[] = suscripciones.flatMap(
+    (suscripcion) => {
+      const cargo = obtenerCargoSuscripcionDelMes(suscripcion, mes, anio);
+      return cargo ? [cargo] : [];
+    },
+  );
+
+  const gastosFiltrados = [...gastosEnCuotas, ...cargosSuscripciones];
 
   const total = gastosFiltrados.reduce(
     (acumulado, gasto) => acumulado + gasto.monto,
